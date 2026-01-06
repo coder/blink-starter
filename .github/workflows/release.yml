@@ -1,0 +1,47 @@
+name: Build Release Bundle
+
+on:
+  release:
+    types: [created]
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      create-artifact:
+        description: "Create build artifact"
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    name: Build Release Bundle
+    runs-on: depot-ubuntu-22.04-4
+    if: ${{ github.repository_owner == 'coder' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build Bundle
+        run: bun run ops/bundle.ts
+
+      - name: Upload Build Artifact
+        if: ${{ inputs.create-artifact }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle
+          path: ${{ github.workspace }}/out
+          retention-days: 7
+
+      - name: Upload Release Assets
+        if: ${{ github.event_name == 'release' || github.ref == 'refs/heads/main' }}
+        run: gh release upload "$RELEASE_TAG" "$GITHUB_WORKSPACE"/out/* --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || 'preview' }}
