@@ -3,8 +3,6 @@ name: Build Release Bundle
 on:
   release:
     types: [created]
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       create-artifact:
