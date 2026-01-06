@@ -1,0 +1,21 @@
+{
+  "name": "blink-starter",
+  "main": "agent.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "blink dev",
+    "deploy": "blink deploy"
+  },
+  "devDependencies": {
+    "@ai-sdk/anthropic": "^2.0.0",
+    "@ai-sdk/openai": "^2.0.0",
+    "@blink-sdk/scout-agent": "latest",
+    "@types/node": "latest",
+    "ai": "^5.0.0",
+    "blink": "latest",
+    "esbuild": "^0.27.0",
+    "typescript": "^5.9.0",
+    "zod": "^4.0.0"
+  }
+}
