@@ -6,4 +6,16 @@ You can see its source code in the **Source** tab.
 
 It can use web search, access GitHub, and Slack. If you didn't configure these, you can open the **Settings** -> **Integrations** tab to configure them now.
 
-To edit the agent: TODO: add command to pull source code from the blink platform.
+## Editing the agent
+
+To edit the agent, install the Blink CLI:
+
+```sh
+npm install -g blink
+```
+
+and pull the agent's source code from the Blink platform:
+
+```sh
+blink pull
+```
