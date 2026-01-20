@@ -24,7 +24,9 @@ jobs:
         uses: oven-sh/setup-bun@v2
 
       - name: Install Dependencies
-        run: bun install
+        # we use package-lock.json, and bun insists on creating a bun.lock file
+        # so we remove it after installation
+        run: bun install && rm -f bun.lock
 
       - name: Build Bundle
         run: bun run ops/bundle.ts
