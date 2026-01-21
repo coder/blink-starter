@@ -24,9 +24,12 @@ jobs:
         uses: oven-sh/setup-bun@v2
 
       - name: Install Dependencies
-        # we use package-lock.json, and bun insists on creating a bun.lock file
-        # so we remove it after installation
-        run: bun install && rm -f bun.lock
+        run: bun install
+
+      # we want to wipe the lockfile to ensure the user installs the latest version of blink
+      # when they start modifying the agent
+      - name: Remove bun.lock file
+        run: rm -f bun.lock
 
       - name: Build Bundle
         run: bun run ops/bundle.ts
