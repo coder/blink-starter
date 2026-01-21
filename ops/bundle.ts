@@ -1,5 +1,5 @@
 import { execSync } from "child_process";
-import { mkdtempSync, writeFileSync, rmSync, mkdirSync } from "fs";
+import { mkdtempSync, writeFileSync, rmSync, mkdirSync, existsSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 
@@ -16,8 +16,11 @@ const gitFiles = execSync("git ls-files", { cwd: ROOT_DIR, encoding: "utf-8" })
     (f) =>
       !f.startsWith("ops/") &&
       !f.startsWith("out/") &&
-      !f.startsWith(".github/")
+      !f.startsWith(".github/") &&
+      existsSync(join(ROOT_DIR, f))
   );
+
+console.log("Files to include:", JSON.stringify(gitFiles, null, 2));
 
 // Create a temp file with the list of files to include
 const tempDir = mkdtempSync(join(tmpdir(), "bundle-"));
