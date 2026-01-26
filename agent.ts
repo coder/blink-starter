@@ -2,6 +2,7 @@ import { type Message, Scout } from "@blink-sdk/scout-agent";
 import { type LanguageModel, streamText } from "ai";
 import type { ProviderOptions } from "@ai-sdk/provider-utils";
 import * as blink from "blink";
+import { SYSTEM_PROMPT } from "./prompt";
 
 export const agent = new blink.Agent<Message>();
 
@@ -64,6 +65,7 @@ agent.on("chat", async ({ id, messages }) => {
   }
 
   const params = await scout.buildStreamTextParams({
+    systemPrompt: SYSTEM_PROMPT,
     messages,
     chatID: id,
     model,
